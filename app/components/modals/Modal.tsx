@@ -6,8 +6,8 @@ import Button from '../core/Button'
 
 interface ModalProps {
   isOpen?: boolean
-  onClose: () => {}
-  onSubmit: () => {}
+  onClose: () => void
+  onSubmit: () => void
   title?: string
   body?: React.ReactElement
   footer?: React.ReactElement
@@ -101,6 +101,7 @@ const Modal: React.FC<ModalProps> = ({
                     onClick={handleSubmit}
                   />
                 </div>
+                {footer}
               </div>
             </div>
           </div>
