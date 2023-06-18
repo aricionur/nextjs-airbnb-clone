@@ -5,7 +5,7 @@ import { useCallback, useState } from 'react'
 
 import Avatar from '../core/Avatar'
 import MenuItem from './MenuItem'
-import useRegisterModal from '@/app/ hooks/useRegisterModal'
+import useRegisterModal from '@/app/hooks/useRegisterModal'
 
 const UserMenu = () => {
   const [isOpen, setIsOpen] = useState(false)
