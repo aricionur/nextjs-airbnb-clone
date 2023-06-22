@@ -1,3 +1,5 @@
+'use client'
+
 import { IoDiamond } from 'react-icons/io5'
 import { BsSnow } from 'react-icons/bs'
 import { FaSkiing } from 'react-icons/fa'
