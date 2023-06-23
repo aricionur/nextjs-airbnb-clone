@@ -11,6 +11,7 @@ import CountrySelect from '../inputs/CountrySelect'
 import dynamic from 'next/dynamic'
 import { FaBroadcastTower } from 'react-icons/fa'
 import Counter from '../inputs/Counter'
+import ImageUpload from '../inputs/ImageUpload'
 
 enum STEPS {
   CATEGORY = 0,
@@ -51,6 +52,7 @@ const RentModal = () => {
   const guestCount = watch('guestCount')
   const roomCount = watch('roomCount')
   const bathroomCount = watch('bathroomCount')
+  const imageSrc = watch('imageSrc')
 
   const Map = useMemo(() => dynamic(() => import('../core/Map'), { ssr: false }), [location])
 
@@ -71,23 +73,26 @@ const RentModal = () => {
     return 'Back'
   }, [step])
 
-  let bodyContent = (
-    <div className="flex flex-col gap-8">
-      <Heading title="Which of these best describes your place?" subtitle="Pick a category" />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto">
-        {categories.map(item => (
-          <div key={item.label} className="col-span-1">
-            <CategoryInput
-              onClick={category => setCustomValue('category', category)}
-              selected={category === item.label}
-              label={item.label}
-              icon={item.icon}
-            />
-          </div>
-        ))}
+  let bodyContent = undefined
+  if (step === STEPS.CATEGORY) {
+    bodyContent = (
+      <div className="flex flex-col gap-8">
+        <Heading title="Which of these best describes your place?" subtitle="Pick a category" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto">
+          {categories.map(item => (
+            <div key={item.label} className="col-span-1">
+              <CategoryInput
+                onClick={category => setCustomValue('category', category)}
+                selected={category === item.label}
+                label={item.label}
+                icon={item.icon}
+              />
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
-  )
+    )
+  }
 
   if (step === STEPS.LOCATION) {
     bodyContent = (
@@ -121,6 +126,15 @@ const RentModal = () => {
           value={bathroomCount}
           onChange={value => setCustomValue('bathroomCount', value)}
         />
+      </div>
+    )
+  }
+
+  if (step === STEPS.IMAGES) {
+    bodyContent = (
+      <div className="flex flex-col gap-8">
+        <Heading title="Add a photo of your place" subtitle="Show guests what your place looks like!" />
+        <ImageUpload value={imageSrc} onChange={value => setCustomValue('imageSrc', value)} />
       </div>
     )
   }
