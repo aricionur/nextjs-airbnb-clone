@@ -12,7 +12,7 @@ import Button from '../core/Button'
 interface ListingCardProps {
   data: Listing
   reservation?: Reservation
-  onAction?: (id?: string) => void
+  onAction?: (id: string) => void
   disabled?: boolean
   actionLabel?: string
   actionId?: string

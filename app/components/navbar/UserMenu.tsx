@@ -4,6 +4,7 @@ import { AiOutlineMenu } from 'react-icons/ai'
 import React, { useCallback, useState } from 'react'
 import { User } from '@prisma/client'
 import { signOut } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 
 import Avatar from '../core/Avatar'
 import MenuItem from './MenuItem'
@@ -20,6 +21,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
   const registerModel = useRegisterModal()
   const loginModel = useLoginModal()
   const rentModal = useRentModal()
+  const router = useRouter()
 
   const toggleOpen = useCallback(() => {
     setIsOpen(value => !value)
@@ -56,7 +58,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
           <div className="flex flex-col cursor-pointer">
             {currentUser ? (
               <>
-                <MenuItem onClick={() => {}} label="My trips" />
+                <MenuItem onClick={() => router.push('/trips')} label="My trips" />
                 <MenuItem onClick={() => {}} label="My favourites" />
                 <MenuItem onClick={() => {}} label="My reservations" />
                 <MenuItem onClick={() => {}} label="My properties" />
