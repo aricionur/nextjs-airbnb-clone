@@ -1,5 +1,12 @@
 'use client'
 
+import axios from 'axios'
+import { useRouter } from 'next/navigation'
+import { Range } from 'react-date-range'
+import { toast } from 'react-hot-toast'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { differenceInCalendarDays, eachDayOfInterval } from 'date-fns'
+
 import Container from '@/app/components/core/Container'
 import ListingHead from '@/app/components/listings/ListingHead'
 import ListingInfo from '@/app/components/listings/ListingInfo'
@@ -7,14 +14,6 @@ import ListingReservation from '@/app/components/listings/ListingReservation'
 import { categories } from '@/app/components/navbar/Categories'
 import useLoginModal from '@/app/hooks/useLoginModal'
 import { Reservation, User, Listing } from '@prisma/client'
-import axios from 'axios'
-import { differenceInCalendarDays, eachDayOfInterval } from 'date-fns'
-import { difference } from 'next/dist/build/utils'
-import { useRouter } from 'next/navigation'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { Range } from 'react-date-range'
-import { toast } from 'react-hot-toast'
-import { isReturnStatement } from 'typescript'
 
 const initialDateRange = {
   startDate: new Date(),
@@ -62,22 +61,25 @@ const ListingClient: React.FC<ListingClientProps> = ({ listing, currentUser, res
         totalPrice,
         startDate: dateRange.startDate,
         endDate: dateRange.endDate,
-        listing: listing?.id,
+        listingId: listing?.id,
       })
       .then(() => {
         toast.success('Listing reserved!')
         setDateRange(initialDateRange)
+        // router.push('/trips')
         router.refresh()
       })
-      .catch(() => toast.error('Something went wrong.'))
-      .finally(() => setIsLoading(false))
+      .catch(() => {
+        toast.error('Something went wrong.')
+      })
+      .finally(() => {
+        setIsLoading(false)
+      })
   }, [totalPrice, dateRange, listing?.id, router, currentUser, loginModal])
 
   useEffect(() => {
     if (dateRange.startDate && dateRange.endDate) {
       const dayCount = differenceInCalendarDays(dateRange.endDate, dateRange.startDate)
-
-      console.log('dayCount:', dayCount)
 
       if (dayCount && listing.price) setTotalPrice(dayCount * listing.price)
       else setTotalPrice(listing.price)
