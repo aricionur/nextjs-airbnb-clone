@@ -16,7 +16,7 @@ interface ListingCardProps {
   disabled?: boolean
   actionLabel?: string
   actionId?: string
-  currentUser?: User
+  currentUser?: User | null
 }
 
 const ListingCard: React.FC<ListingCardProps> = ({
@@ -25,7 +25,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
   onAction,
   disabled,
   actionLabel,
-  actionId,
+  actionId = '',
   currentUser,
 }) => {
   const router = useRouter()
